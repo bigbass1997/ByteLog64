@@ -1,0 +1,58 @@
+plugins {
+    id 'java'
+	id 'application'
+	id 'idea'
+	id 'eclipse'
+}
+
+project.ext.lwjglVersion = "3.2.3"
+project.ext.lwjglNatives = "natives-windows"
+
+repositories {
+	mavenCentral()
+	maven {
+		url "http://bigbass1997.com:3510/repository/internal/"
+	}
+	maven {
+		url "https://raw.github.com/SpinyOwl/repo/releases"
+	}
+}
+
+dependencies {
+	runtimeOnly "org.lwjgl:lwjgl::$lwjglNatives"
+	runtimeOnly "org.lwjgl:lwjgl-assimp::$lwjglNatives"
+	runtimeOnly "org.lwjgl:lwjgl-glfw::$lwjglNatives"
+	runtimeOnly "org.lwjgl:lwjgl-nanovg::$lwjglNatives"
+	runtimeOnly "org.lwjgl:lwjgl-nuklear::$lwjglNatives"
+	runtimeOnly "org.lwjgl:lwjgl-openal::$lwjglNatives"
+	runtimeOnly "org.lwjgl:lwjgl-opengl::$lwjglNatives"
+	runtimeOnly "org.lwjgl:lwjgl-par::$lwjglNatives"
+	runtimeOnly "org.lwjgl:lwjgl-stb::$lwjglNatives"
+	
+	implementation 'com.lukestadem:rendgine:1.1.12'
+	
+	implementation 'org.slf4j:slf4j-api:1.8.0-beta4'
+	implementation 'org.slf4j:slf4j-log4j12:1.8.0-beta4'
+	
+	implementation 'commons-io:commons-io:2.8.0'
+	implementation 'commons-codec:commons-codec:1.15'
+	
+	implementation 'com.fazecast:jSerialComm:2.6.2'
+	
+	implementation 'org.joml:joml:1.9.25'
+	implementation 'org.joml:joml:1.9.25:sources'
+}
+
+version = '1'
+sourceCompatibility = '1.8'
+
+mainClassName = 'com.lukestadem.bytelog64.Main'
+
+jar {
+	from files(sourceSets.main.output.classesDirs)
+	from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } } 
+	
+	manifest {
+	    attributes "Main-Class": mainClassName
+	}
+}
